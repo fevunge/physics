@@ -7,34 +7,38 @@ local function ground()
 end
 
 function love.load()
-	X = 100
-	Y = 0
+	rect = {}
+	rect.x = 100
+	rect.y = 0
+	rect.width = 50
+	rect.height = 50
+	object = {}
 	love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
 end
 
 function love.update(delta)
-	if X > love.graphics.getWidth() then
-		X = -50
+	if rect.x > love.graphics.getWidth() then
+		rect.x = -rect.width
 	end
-	if (Y + 50) < love.graphics.getHeight() - 50 then
-		Y = Y + (9.8 * delta * renderVelocity)
+	if (rect.y + rect.height) < love.graphics.getHeight() - 50 then
+		rect.y = rect.y + (9.8 * delta * renderVelocity)
 	end
 	if love.keyboard.isDown("right") then
-		X = X + 5 * delta * renderVelocity
+		rect.x = rect.x + 5 * delta * renderVelocity
 	elseif love.keyboard.isDown("left") then
-		X = X - 5 * delta * renderVelocity
+		rect.x = rect.x - 5 * delta * renderVelocity
 	end
 end
 
 function love.mousepressed(x, y, button, istouch)
 	if button == 1 then
-		X = x
-		Y = y
+		rect.x = x
+		rect.y = y
 	end
 end
 
 function love.draw()
 	paint.apply(0.8, 0.2, 0.2)
-	love.graphics.rectangle("fill", X, Y, 50, 50)
+	love.graphics.rectangle("fill", rect.x, rect.y, rect.width, rect.height)
 	ground()
 end
